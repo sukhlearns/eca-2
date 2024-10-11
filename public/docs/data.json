@@ -1,0 +1,326 @@
+{
+  "firefighter_equipment": {
+    "personal_protective_equipment": {
+      "turnout_gear": {
+        "description": "Bunker gear designed for thermal protection and safety.",
+        "components": {
+          "coat": {
+            "description": "Fire-resistant coat with thermal liners.",
+            "maintenance": {
+              "cleaning": "Wash according to manufacturer's instructions, typically using a washing machine with a gentle cycle.",
+              "inspections": [
+                "Check for tears, burns, or other damages.",
+                "Ensure zippers and closures function properly."
+              ],
+              "storage": "Hang in a well-ventilated area to dry completely after use."
+            },
+            "care_tips": [
+              "Avoid using fabric softeners or bleach.",
+              "Replace if subjected to severe impact or heat."
+            ],
+            "safety_standards": [
+              "Complies with NFPA 1971 for protective clothing."
+            ]
+          },
+          "pants": {
+            "description": "Fire-resistant pants with reinforced knees.",
+            "maintenance": {
+              "cleaning": "Follow manufacturer's washing instructions.",
+              "inspections": [
+                "Inspect seams and material for wear.",
+                "Check for functionality of pockets and closures."
+              ],
+              "storage": "Store in a cool, dry place."
+            },
+            "care_tips": [
+              "Avoid exposing to extreme heat.",
+              "Replace if damaged."
+            ],
+            "safety_standards": [
+              "Meets NFPA 1971 requirements."
+            ]
+          }
+        }
+      },
+      "helmet": {
+        "description": "Firefighter helmet with face shield and reflective markings.",
+        "maintenance": {
+          "cleaning": "Use mild soap and water. Rinse thoroughly.",
+          "inspections": [
+            "Check for cracks, dents, or signs of extreme heat.",
+            "Ensure visor and face shield are intact."
+          ],
+          "storage": "Store in a cool, dry place away from direct sunlight."
+        },
+        "care_tips": [
+          "Replace if subjected to severe impact.",
+          "Ensure the chin strap is functional."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1971 for head protection."
+        ]
+      },
+      "gloves": {
+        "description": "Fire-resistant gloves that provide dexterity and protection.",
+        "maintenance": {
+          "cleaning": "Wash with mild soap and water. Air dry.",
+          "inspections": [
+            "Inspect for cuts, tears, or wear.",
+            "Ensure no contamination with hazardous materials."
+          ],
+          "storage": "Store in a clean, dry place, away from direct sunlight."
+        },
+        "care_tips": [
+          "Replace if contaminated or excessively worn."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1971 for gloves."
+        ]
+      },
+      "boots": {
+        "description": "Fire-resistant, slip-resistant, and waterproof boots (usually steel-toed).",
+        "maintenance": {
+          "cleaning": "Wipe down after each use with appropriate leather cleaner.",
+          "inspections": [
+            "Check for wear on soles and upper materials.",
+            "Inspect for leaks or water ingress."
+          ],
+          "storage": "Store in a dry area, ideally on a boot rack."
+        },
+        "care_tips": [
+          "Use waterproofing treatments to extend lifespan."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1971 for footwear."
+        ]
+      },
+      "self_contained_breathing_apparatus": {
+        "description": "Air tank and mask for breathing in smoke and hazardous environments.",
+        "maintenance": {
+          "cleaning": "Clean with disinfectant according to manufacturer's guidelines.",
+          "inspections": [
+            "Check for leaks in the tank and ensure mask seals properly.",
+            "Inspect straps and functionality of valves."
+          ],
+          "storage": "Store in a cool, dry place, away from direct sunlight."
+        },
+        "care_tips": [
+          "Perform regular air tank pressure checks.",
+          "Replace filters as per manufacturer recommendations."
+        ],
+        "safety_standards": [
+          "Meets NFPA 1981 standards for SCBA."
+        ]
+      },
+      "nomex_hood": {
+        "description": "Fire-resistant hood worn under the helmet to protect the neck and ears.",
+        "maintenance": {
+          "cleaning": "Follow manufacturer's washing instructions.",
+          "inspections": [
+            "Inspect for holes or wear."
+          ],
+          "storage": "Store in a dry area."
+        },
+        "care_tips": [
+          "Replace if damaged or excessively worn."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1971 for protective clothing."
+        ]
+      }
+    },
+    "tools_and_equipment": {
+      "fire_hose": {
+        "description": "Flexible tubes for transporting water.",
+        "maintenance": {
+          "cleaning": "Rinse with clean water after use and allow to dry.",
+          "inspections": [
+            "Check for leaks, kinks, and damage.",
+            "Inspect couplings and gaskets."
+          ],
+          "storage": "Store on a hose reel or in a cool, dry place."
+        },
+        "care_tips": [
+          "Avoid running over hoses with vehicles.",
+          "Use hose protectors at connections."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1962 for fire hose."
+        ]
+      },
+      "fire_extinguishers": {
+        "description": "Portable extinguishers for small fires.",
+        "maintenance": {
+          "inspections": [
+            "Check pressure gauge and ensure the pin is intact.",
+            "Inspect for physical damage."
+          ],
+          "storage": "Store in easily accessible locations."
+        },
+        "care_tips": [
+          "Replace or recharge after each use."
+        ],
+        "safety_standards": [
+          "Meets NFPA 10 standards for portable fire extinguishers."
+        ]
+      },
+      "axe": {
+        "description": "Fire axe for forcible entry and ventilation.",
+        "maintenance": {
+          "cleaning": "Wipe down with a clean cloth and oil the blade.",
+          "inspections": [
+            "Check the head and handle for cracks or damage."
+          ],
+          "storage": "Hang in a secure location."
+        },
+        "care_tips": [
+          "Sharpen blades regularly.",
+          "Avoid using axes for unintended purposes."
+        ],
+        "safety_standards": [
+          "Follows NFPA guidelines for axes."
+        ]
+      },
+      "halligan_tool": {
+        "description": "Multi-purpose tool for prying and forcing doors.",
+        "maintenance": {
+          "cleaning": "Wipe down after use.",
+          "inspections": [
+            "Check for structural integrity and damage."
+          ],
+          "storage": "Store in a designated location."
+        },
+        "care_tips": [
+          "Avoid using for purposes other than intended."
+        ],
+        "safety_standards": [
+          "Complies with NFPA guidelines for rescue tools."
+        ]
+      },
+      "crowbar": {
+        "description": "For prying and breaking down barriers.",
+        "maintenance": {
+          "cleaning": "Wipe down to remove dirt and debris.",
+          "inspections": [
+            "Check for bends or breaks."
+          ],
+          "storage": "Store in a dry, clean area."
+        },
+        "care_tips": [
+          "Use the correct size for the job to prevent damage."
+        ],
+        "safety_standards": [
+          "Complies with NFPA guidelines for rescue tools."
+        ]
+      },
+      "pike_pole": {
+        "description": "Used for reaching and pulling down ceilings or walls.",
+        "maintenance": {
+          "cleaning": "Wipe down after use.",
+          "inspections": [
+            "Check for wear and functionality."
+          ],
+          "storage": "Store in a clean, dry area."
+        },
+        "care_tips": [
+          "Inspect for damage before each use."
+        ],
+        "safety_standards": [
+          "Complies with NFPA guidelines for pike poles."
+        ]
+      },
+      "ladders": {
+        "description": "Various types (extension ladders, roof ladders, step ladders).",
+        "maintenance": {
+          "cleaning": "Remove dirt and debris after each use.",
+          "inspections": [
+            "Check for structural integrity and function.",
+            "Ensure rungs are secure."
+          ],
+          "storage": "Store vertically or horizontally in a dry area."
+        },
+        "care_tips": [
+          "Avoid placing ladders near heat sources."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1932 for ground ladders."
+        ]
+      },
+      "portable_water_pump": {
+        "description": "For supplying water in remote areas or where hydrants are unavailable.",
+        "maintenance": {
+          "cleaning": "Flush the pump with clean water after each use.",
+          "inspections": [
+            "Check fuel levels and oil before operation.",
+            "Inspect hoses and connections for leaks."
+          ],
+          "storage": "Store in a clean, dry area."
+        },
+        "care_tips": [
+          "Run the pump monthly to ensure functionality."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1901 for fire apparatus."
+        ]
+      },
+      "thermal_imaging_camera": {
+        "description": "For detecting heat signatures in smoke-filled environments.",
+        "maintenance": {
+          "cleaning": "Use a microfiber cloth to clean the lens.",
+          "inspections": [
+            "Check battery levels before each use.",
+            "Inspect for physical damage."
+          ],
+          "storage": "Store in a protective case."
+        },
+        "care_tips": [
+          "Avoid exposing to extreme temperatures."
+        ],
+        "safety_standards": [
+          "Complies with NFPA 1801 for thermal imaging cameras."
+        ]
+      },
+      "communication_devices": {
+        "description": "Radios and other devices for communication on the fireground.",
+        "maintenance": {
+          "cleaning": "Wipe with a damp cloth.",
+          "inspections": [
+            "Test communication functions regularly.",
+            "Check battery health and functionality."
+          ],
+          "storage": "Store in a protective case."
+        },
+        "care_tips": [
+          "Charge devices regularly to avoid battery issues."
+        ],
+        "safety_standards": [
+          "Meets FCC regulations for communication devices."
+        ]
+      }
+    }
+  },
+  "additional_information": {
+    "common_problems": [
+      "Exposure to hazardous materials.",
+      "Dehydration and heat stress.",
+      "Physical injuries from falls or equipment."
+    ],
+    "safety_procedures": [
+      "Always wear full PPE when responding to incidents.",
+      "Conduct regular training on equipment use and safety.",
+      "Establish a safety officer for each incident."
+    ],
+    "training_resources": [
+      {
+        "name": "National Fire Academy",
+        "website": "https://www.usfa.fema.gov/nfa/",
+        "description": "Provides training programs for firefighters."
+      },
+      {
+        "name": "Firefighter Training Network",
+        "website": "https://www.firefightertraining.com",
+        "description": "Offers various training modules online."
+      }
+    ]
+  }
+}
