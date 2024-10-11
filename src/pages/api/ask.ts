@@ -30,7 +30,7 @@ const TEMPLATE = `
 
 // JSON URLs with equipment maintenance information
 const equipmentDataLinks = [
-    'https://eca-swart.vercel.app/docs/newdata.json',
+    'https://eca-2.vercel.app/docs/newdata.json',
 ];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

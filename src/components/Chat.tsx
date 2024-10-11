@@ -175,16 +175,17 @@ const Chat: React.FC = () => {
         doc.save('equipHelper_Chat_History.pdf');
     };
 
-    // Function to format long AI replies into separate paragraphs
+// Function to format long AI replies into separate paragraphs
     const formatText = (text: string) => {
-
-
         // Regex to find sentences with image URLs
         const parts = text.split(/(\/PPE Images\/.*?\.png)/g);
-        return parts.map((part, index) => {
+        const formattedParts: (JSX.Element | string)[] = [];
+
+        // Iterate over the parts to handle text and image rendering
+        parts.forEach((part, index) => {
             // Check if the part matches the image URL pattern
             if (/^\/PPE Images\/.*?\.png$/.test(part)) {
-                return (
+                formattedParts.push(
                     <Image
                         key={index}
                         src={part}
@@ -195,11 +196,15 @@ const Chat: React.FC = () => {
                         className="mt-2 max-w-[500px] w-full" // Center image and set max width
                     />
                 );
-            } else {
-                return <p key={index} className="mb-2">{part.trim()}</p>;
+            } else if (part.trim()) {
+                // Only push non-empty text parts
+                formattedParts.push(<p key={index} className="mb-2">{part.trim()}</p>);
             }
         });
+
+        return <>{formattedParts}</>; // Return the formatted elements
     };
+
 
 
     const getQuestionsForSelectedEquipment = () => {
