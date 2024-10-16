@@ -7,7 +7,6 @@ interface Message {
     type: 'user' | 'ai';
 }
 
-// Define the equipment and their respective questions
 const equipmentQuestions = {
     "Helmet": [
         "What are the features and functions of my helmet?",
@@ -48,9 +47,8 @@ const equipmentQuestions = {
     ]
 };
 
-
 const Chat: React.FC = () => {
-    const [selectedEquipment, setSelectedEquipment] = useState<string>(''); // State for selected equipment
+    const [selectedEquipment, setSelectedEquipment] = useState<string>('');
     const [question, setQuestion] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(false);
@@ -131,7 +129,7 @@ const Chat: React.FC = () => {
 
     const handleEquipmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedEquipment(e.target.value);
-        setQuestion(''); // Clear the current question
+        setQuestion('');
     };
 
     const clearHistory = () => {
@@ -154,11 +152,10 @@ const Chat: React.FC = () => {
             const text = `${sender}: ${message.text}`;
             const splitText = doc.splitTextToSize(text, 180);
 
-            // Set text color based on sender
             if (message.type === 'user') {
-                doc.setTextColor(0, 102, 204); // User: Blue
+                doc.setTextColor(0, 102, 204);
             } else {
-                doc.setTextColor(255, 165, 0); // equipHelper: Orange
+                doc.setTextColor(255, 165, 0);
             }
 
             splitText.forEach((line: string | string[]) => {
@@ -175,37 +172,30 @@ const Chat: React.FC = () => {
         doc.save('equipHelper_Chat_History.pdf');
     };
 
-// Function to format long AI replies into separate paragraphs
     const formatText = (text: string) => {
-        // Regex to find sentences with image URLs
         const parts = text.split(/(\/PPE Images\/.*?\.png)/g);
         const formattedParts: (JSX.Element | string)[] = [];
 
-        // Iterate over the parts to handle text and image rendering
         parts.forEach((part, index) => {
-            // Check if the part matches the image URL pattern
             if (/^\/PPE Images\/.*?\.png$/.test(part)) {
                 formattedParts.push(
                     <Image
                         key={index}
                         src={part}
                         alt="AI Response Image"
-                        layout="responsive" // Use responsive layout
-                        width={300} // Set the intrinsic width
-                        height={200} // Set the intrinsic height
-                        className="mt-2 max-w-[500px] w-full" // Center image and set max width
+                        layout="responsive"
+                        width={300}
+                        height={200}
+                        className="chat__image"
                     />
                 );
             } else if (part.trim()) {
-                // Only push non-empty text parts
-                formattedParts.push(<p key={index} className="mb-2">{part.trim()}</p>);
+                formattedParts.push(<p key={index} className="chat__text">{part.trim()}</p>);
             }
         });
 
-        return <>{formattedParts}</>; // Return the formatted elements
+        return <>{formattedParts}</>;
     };
-
-
 
     const getQuestionsForSelectedEquipment = () => {
         if (selectedEquipment) {
@@ -215,69 +205,52 @@ const Chat: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-orange-50 p-4 max-w-screen-xl mx-auto relative">
-            <header className="text-center text-3xl font-bold text-orange-700 mb-6">
-                equipHelper
-            </header>
+        <div className="chat">
 
-            <div className="flex justify-end mb-4">
-                <button
-                    onClick={clearHistory}
-                    className="bg-red-600 text-white text-sm rounded-full px-3 py-1 hover:bg-red-700 transition mr-2"
-                >
-                    Clear History
+            <div className="chat__actions chat__header">
+                <button onClick={clearHistory} className="chat__button chat__button--clear">
+                    Clear
                 </button>
 
-                <button
-                    onClick={downloadPDF}
-                    className="bg-orange-600 text-white text-sm rounded-full px-3 py-1 hover:bg-orange-700 transition"
-                >
-                    Download PDF
+                <h1 className="chat__title">
+                    equipHelper
+                </h1>
+
+                <button onClick={downloadPDF} className="chat__button chat__button--download">
+                    PDF
                 </button>
             </div>
 
-            <div className="flex-grow overflow-y-auto bg-white shadow-md rounded-lg p-4 mb-4 border-l-4 border-orange-500">
+            <div className="chat__messages">
                 {messages.map((message, index) => (
-                    <div key={index} className={`mb-2 ${message.type === 'user' ? 'text-right' : 'text-left'}`}>
-                        <div className={`text-sm font-semibold ${message.type === 'user' ? 'text-blue-600' : 'text-gray-700'}`}>
+                    <div key={index} className={`chat__message chat__message--${message.type}`}>
+                        <div className={`chat__sender chat__sender--${message.type}`}>
                             {message.type === 'user' ? 'User' : 'equipHelper'}
                         </div>
-                        <div className={`inline-block p-3 rounded-lg shadow-md ${message.type === 'user' ? 'bg-blue-600 text-white' : 'bg-orange-100 text-black'}`}>
+                        <div className={`chat__bubble chat__bubble--${message.type}`}>
                             {message.type === 'ai' ? formatText(message.text) : <p>{message.text}</p>}
                         </div>
                     </div>
                 ))}
                 {loading && (
-                    <div className="flex items-start mb-2">
-                        <Image
-                            src="/loadingGIF.gif"
-                            alt="Loading..."
-                            width={64}
-                            height={64}
-                            className="mr-2"
-                        />
+                    <div className="chat__loading">
+                        <Image src="/loadingGIF.gif" alt="Loading..." width={64} height={64} />
                     </div>
                 )}
                 <div ref={messagesEndRef} />
             </div>
-
+<div className="chat__messages-bottom-part">
             {isFirstVisit && (
-                <div className="bg-orange-100 p-2 mb-4 text-sm text-orange-800 border border-orange-300 rounded-md">
+                <div className="chat__welcome">
                     Welcome! Ask me about firefighting equipment or maintenance.
                 </div>
             )}
 
-            {/* Dropdown for selecting equipment */}
-            <div className="mb-4">
-                <label htmlFor="equipment" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Select Equipment:
-                </label>
-                <select
-                    id="equipment"
-                    value={selectedEquipment}
-                    onChange={handleEquipmentChange}
-                    className="border border-gray-300 rounded-md p-2 w-full"
-                >
+            <div className="chat__dropdown">
+                {/*<label htmlFor="equipment" className="chat__label">*/}
+                {/*    Select Equipment:*/}
+                {/*</label>*/}
+                <select id="equipment" value={selectedEquipment} onChange={handleEquipmentChange} className="chat__select">
                     <option value="">Select Equipment</option>
                     {Object.keys(equipmentQuestions).map((equipment) => (
                         <option key={equipment} value={equipment}>
@@ -287,40 +260,37 @@ const Chat: React.FC = () => {
                 </select>
             </div>
 
-            {/* Display predefined questions based on selected equipment */}
             {selectedEquipment && (
-                <div className="mb-4">
-                    <h3 className="font-semibold text-gray-700 mb-2">Predefined Questions:</h3>
-                    <div className="flex flex-col space-y-2">
-                        {getQuestionsForSelectedEquipment().map((predefinedQuestion, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handlePredefinedQuestion(predefinedQuestion)}
-                                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md text-left"
-                            >
-                                {predefinedQuestion}
-                            </button>
-                        ))}
-                    </div>
+                <div className="chat__predefined-questions">
+                    {getQuestionsForSelectedEquipment().map((question, index) => (
+                        <button
+                            key={index}
+                            className="chat__button chat__button--predefined"
+                            onClick={() => handlePredefinedQuestion(question)}
+                        >
+                            {question}
+                        </button>
+                    ))}
                 </div>
             )}
 
-            {/* Input area for new questions */}
-            <form onSubmit={handleSubmit} className="flex">
+            <form onSubmit={handleSubmit} className="chat__form">
                 <input
                     type="text"
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
-                    placeholder="Type your question..."
-                    className="border border-gray-300 rounded-l-md p-2 flex-grow"
+                    placeholder="Type your question here..."
+                    className="chat__input"
                 />
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white font-semibold rounded-r-md px-4 hover:bg-blue-700 transition"
-                >
-                    Send
+                <button type="submit" className="chat__button chat__button--submit" disabled={loading}>
+                    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="21" cy="21" r="21" fill="black"/>
+                        <path d="M12 29V13L31 21L12 29ZM14 26L25.85 21L14 16V19.5L20 21L14 22.5V26Z" fill="white"/>
+                    </svg>
+
                 </button>
             </form>
+</div>
         </div>
     );
 };
