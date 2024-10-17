@@ -54,6 +54,10 @@ const Chat: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [isFirstVisit, setIsFirstVisit] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const [questionCounter, setQuestionCounter] = useState(0); // Counter for questions asked
+    const maxQuestionsBeforeReset = 1; // Number of questions before reset
+
+
 
     const initialAIMessage: Message = {
         text: "👨‍🚒 Hey there! I'm equipHelper, your expert assistant for all things firefighting equipment! 🧰 Need help with maintaining your gear, or have questions about equipment care and inspection? Let’s make sure you're well-prepared for every emergency with properly maintained gear! 🚒💡",
@@ -83,6 +87,8 @@ const Chat: React.FC = () => {
     }, [messages]);
 
     const handleSubmitLogic = async (questionToSubmit: string) => {
+        // Increment question counter
+        setQuestionCounter((prevCount) => prevCount + 1);
         if (!questionToSubmit.trim()) return;
 
         setLoading(true);
@@ -115,6 +121,7 @@ const Chat: React.FC = () => {
         } finally {
             setLoading(false);
         }
+
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -130,6 +137,8 @@ const Chat: React.FC = () => {
     const handleEquipmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedEquipment(e.target.value);
         setQuestion('');
+        setQuestionCounter(0); // Reset question counter when new equipment is selected
+
     };
 
     const clearHistory = () => {
@@ -203,6 +212,14 @@ const Chat: React.FC = () => {
         }
         return [];
     };
+
+
+    useEffect(() => {
+        if (questionCounter >= maxQuestionsBeforeReset) {
+            setSelectedEquipment(''); // Reset to default after reaching max questions
+            setQuestionCounter(0); // Reset counter
+        }
+    }, [questionCounter]);
 
     return (
         <div className="chat">
