@@ -76,8 +76,16 @@ body{
 
 .chat__message--user .chat__bubble {
     background-color: #e1f7d5;
-    text-align: right;
+    text-align: left;
     padding: 10px;
+
+
+}
+.chat__message--user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: self-end;
 }
 
 .chat__message--ai .chat__bubble {
