@@ -7,11 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 // Temporary in-memory storage for chat history
 const sessionStore: { [key: string]: string[] } = {};
 
+
 // Updated template to focus on equipment maintenance and care
 const TEMPLATE = `
     Based on the provided context from the equipment guide, answer the user's question using the information in the context as much as possible. Make sure to sound like an expert firefighter and provide guidance on maintaining and caring for firefighting equipment.
 
-    If the answer isn’t fully covered in the guide, provide supportive and accurate information to answer the question. Use the context to strengthen your response.
+    If the answer isn’t fully covered in the guide, start your response with: "I don’t have complete information to answer that, but here is a limited and possibly incorrect response:" and then provide supportive and accurate information to answer the question. Use the context to strengthen your response.
 
     Deliver a detailed and direct answer without repeating the user’s input or motivational phrases unless needed. If the question is repeated, offer additional specific details not covered in previous responses.
 
@@ -29,6 +30,7 @@ const TEMPLATE = `
     User: {question}
     Assistant:
 `;
+
 
 // JSON URLs with equipment maintenance information
 const equipmentDataLinks = [
