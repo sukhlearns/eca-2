@@ -17,6 +17,8 @@ const TEMPLATE = `
 
     Avoid mentioning that the information is based on the guide.
 
+    Don't remove the HTML entities like \\n.
+
     **Identify the most relevant image URL from the equipment data based on the user's question and answer.**
 
     ==============================
@@ -59,10 +61,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Limit the context size for GPT-4 token limits
         const context = combinedContext.slice(0, 10000); // Adjust for GPT-4's token limits
 
-        // Set up OpenAI with GPT-4
+        // Set up OpenAI with GPT-4 optimized for image generation
         const openai = new OpenAI({
-            model: 'gpt-3.5-turbo-instruct-0914',
-            temperature: 0.5,
+            model: 'gpt-4',  // Use the GPT-4 model
+            temperature: 0.1, // Set temperature to a low value for deterministic output
             openAIApiKey: process.env.OPENAI_API_KEY,
         });
 
@@ -82,23 +84,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const response = await openai.call(prompt);
         const answer = response.trim();
 
-        // **Identify the most relevant image URL from the equipment data**
+        // Ensure to keep the HTML entities like \n in the response
+        const formattedAnswer = answer.replace(/\\n/g, '\n'); // Replace escaped newlines with actual newlines
+
+        // Identify the most relevant image URL from the equipment data
         let imageUrl: string | null = null; // Initialize imageUrl to null
 
         for (const equipment of equipmentData) {
             const keywords: string[] = equipment.keywords || []; // Ensure keywords is an array of strings
-            if (keywords.some((keyword: string) => question.toLowerCase().includes(keyword.toLowerCase()))) {
+            const matchedKeyword = keywords.find((keyword: string) => question.toLowerCase().includes(keyword.toLowerCase()));
+
+            if (matchedKeyword) {
                 imageUrl = equipment.imageUrl; // Assign image URL based on keyword match
+                console.log(`Matched keyword: ${matchedKeyword}`); // Log the matched keyword
                 break; // Stop searching after a match is found
             }
         }
 
         // Update chat history
-        chatHistory.push(`User: ${question}`, `Assistant: ${answer}`);
+        chatHistory.push(`User: ${question}`, `Assistant: ${formattedAnswer}`);
         sessionStore[session] = chatHistory;
 
         // Include imageUrl in the response
-        res.status(200).json({ answer, imageUrl, sessionId: session });
+        res.status(200).json({ answer: formattedAnswer, imageUrl, sessionId: session });
     } catch (err) {
         console.error(err); // Log the error for debugging
         res.status(500).json({ error: 'Error processing the request' });

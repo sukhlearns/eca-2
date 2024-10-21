@@ -182,11 +182,11 @@ const Chat: React.FC = () => {
     };
 
     const formatText = (text: string) => {
-        const parts = text.split(/(\/PPE Images\/.*?\.png)/g);
+        const parts = text.split(/(\/ppe-images\/.*?\.png)/g);
         const formattedParts: (JSX.Element | string)[] = [];
 
         parts.forEach((part, index) => {
-            if (/^\/PPE Images\/.*?\.png$/.test(part)) {
+            if (/^\/ppe-images\/.*?\.png$/.test(part)) {
                 formattedParts.push(
                     <Image
                         key={index}
