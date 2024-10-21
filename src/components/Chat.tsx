@@ -181,11 +181,18 @@ const Chat: React.FC = () => {
         doc.save('equipHelper_Chat_History.pdf');
     };
 
+    
     const formatText = (text: string) => {
-        const parts = text.split(/(\/ppe-images\/.*?\.png)/g);
+        // Remove any "URL" or "url" from the text
+        const cleanedText = text.replace(/\b(URL|url)\b/g, '').trim();
+    
+        // Split text into parts by image paths and keep them as parts
+        const parts = cleanedText.split(/(\/ppe-images\/.*?\.png)/g);
+        
         const formattedParts: (JSX.Element | string)[] = [];
-
+    
         parts.forEach((part, index) => {
+            // Check if the part is an image path
             if (/^\/ppe-images\/.*?\.png$/.test(part)) {
                 formattedParts.push(
                     <Image
@@ -199,12 +206,25 @@ const Chat: React.FC = () => {
                     />
                 );
             } else if (part.trim()) {
-                formattedParts.push(<p key={index} className="chat__text">{part.trim()}</p>);
+                // If it's text, split by newlines for proper formatting
+                const textWithLineBreaks = part.split('\n').map((line, lineIndex) => (
+                    <React.Fragment key={`${index}-${lineIndex}`}>
+                        {line}
+                        <br />
+                    </React.Fragment>
+                ));
+                formattedParts.push(
+                    <p key={index} className="chat__text">
+                        {textWithLineBreaks}
+                    </p>
+                );
             }
         });
-
+    
         return <>{formattedParts}</>;
     };
+    
+    
 
     const getQuestionsForSelectedEquipment = () => {
         if (selectedEquipment) {

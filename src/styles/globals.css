@@ -218,3 +218,13 @@ body{
     border-radius: 999px;
 
 }
+
+
+.chat__button {
+    transition: 0.3s all ease
+}
+
+.chat__button:hover {
+    background-color: var(--color-ascent); /* Highlight on hover */
+    color:white
+}

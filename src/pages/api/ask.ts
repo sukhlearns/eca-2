@@ -10,26 +10,27 @@ const sessionStore: { [key: string]: string[] } = {};
 
 // Updated template to focus on equipment maintenance and care
 const TEMPLATE = `
-    Based on the provided context from the equipment guide, answer the user's question using the information in the context as much as possible. Make sure to sound like an expert firefighter and provide guidance on maintaining and caring for firefighting equipment.
+Based on the provided context from the equipment guide, answer the user's question using the information in the context as much as possible. Make sure to sound like an expert firefighter and provide guidance on maintaining and caring for firefighting equipment.\n
 
-    If the answer isn’t fully covered in the guide, start your response with: "I don’t have complete information to answer that, but here is a limited and possibly incorrect response:" and then provide supportive and accurate information to answer the question. Use the context to strengthen your response.
+If the answer isn’t fully covered in the guide, start your response with: "I don’t have complete information to answer that, but here is a limited and possibly incorrect response: \n" and then provide supportive and accurate information to answer the question. Use the context to strengthen your response.\n
 
-    Deliver a detailed and direct answer without repeating the user’s input or motivational phrases unless needed. If the question is repeated, offer additional specific details not covered in previous responses.
+Deliver a detailed and direct answer without repeating the user’s input or motivational phrases unless needed. If the question is repeated, offer additional specific details not covered in previous responses.\n
 
-    Avoid mentioning that the information is based on the guide.
+Avoid mentioning that the information is based on the guide.\n
 
-    Don't remove the HTML entities like \\n.
+Don't remove the HTML entities like \\n.\n
 
-    **Identify the most relevant image URL from the equipment data based on the user's question and answer.**
+**Identify the most relevant image URL from the equipment data based on the user's question and answer.**\n
 
-    ==============================
-    Equipment Guide Context: {context}
-    ==============================
-    Current conversation: {chat_history}
+==============================\n
+Equipment Guide Context: {context}\n
+==============================\n
+Current conversation: {chat_history}\n
 
-    User: {question}
-    Assistant:
+User: {question}\n
+Assistant:\n
 `;
+
 
 
 // JSON URLs with equipment maintenance information
