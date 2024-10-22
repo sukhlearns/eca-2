@@ -57,8 +57,6 @@ const Chat: React.FC = () => {
     const [questionCounter, setQuestionCounter] = useState(0); // Counter for questions asked
     const maxQuestionsBeforeReset = 1; // Number of questions before reset
 
-
-
     const initialAIMessage: Message = {
         text: "👨‍🚒 Hey there! I'm equipHelper, your expert assistant for all things firefighting equipment! 🧰 Need help with maintaining your gear, or have questions about equipment care and inspection? Let’s make sure you're well-prepared for every emergency with properly maintained gear! 🚒💡",
         type: 'ai',
@@ -180,7 +178,6 @@ const Chat: React.FC = () => {
 
         doc.save('equipHelper_Chat_History.pdf');
     };
-
     
     const formatText = (text: string) => {
         // Remove any "URL" or "url" from the text
@@ -224,15 +221,12 @@ const Chat: React.FC = () => {
         return <>{formattedParts}</>;
     };
     
-    
-
     const getQuestionsForSelectedEquipment = () => {
         if (selectedEquipment) {
             return equipmentQuestions[selectedEquipment as keyof typeof equipmentQuestions] || [];
         }
         return [];
     };
-
 
     useEffect(() => {
         if (questionCounter >= maxQuestionsBeforeReset) {

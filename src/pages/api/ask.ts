@@ -20,7 +20,9 @@ Avoid mentioning that the information is based on the guide.\n
 
 Don't remove the HTML entities like \\n.\n
 
-**Identify the most relevant image URL from the equipment data based on the user's question and answer.**\n
+Don't use the character '(' ,')' ,'!' , '[', ']', '*' in your response.\n
+
+**Identify the most relevant image URL from the equipment data based on the user's question and answer. Add 'Relevant image: ' before the image URL if found.**\n
 
 ==============================\n
 Equipment Guide Context: {context}\n
@@ -30,6 +32,7 @@ Current conversation: {chat_history}\n
 User: {question}\n
 Assistant:\n
 `;
+
 
 
 
@@ -66,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // Set up OpenAI with GPT-4 optimized for image generation
         const openai = new OpenAI({
-            model: 'gpt-4',  // Use the GPT-4 model
+            model: 'gpt-4o',  // Use the GPT-4 model
             temperature: 0.1, // Set temperature to a low value for deterministic output
             openAIApiKey: process.env.OPENAI_API_KEY,
         });
