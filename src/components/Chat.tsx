@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import jsPDF from 'jspdf';
+import { supabase } from '../pages/api/supabaseClient'; // Import supabase client
+
 
 interface Message {
     text: string;
@@ -84,43 +86,64 @@ const Chat: React.FC = () => {
         }
     }, [messages]);
 
-    const handleSubmitLogic = async (questionToSubmit: string) => {
-        // Increment question counter
-        setQuestionCounter((prevCount) => prevCount + 1);
-        if (!questionToSubmit.trim()) return;
+// 
 
-        setLoading(true);
+const handleSubmitLogic = async (questionToSubmit: string) => {
+    if (!questionToSubmit.trim()) return;
 
-        const userMessage: Message = { text: questionToSubmit, type: 'user' };
-        setMessages((prev) => {
-            if (isFirstVisit) {
-                setIsFirstVisit(false);
-                return [...prev.slice(1), userMessage];
-            }
-            return [...prev, userMessage];
-        });
-        setQuestion('');
+    setLoading(true);
 
-        try {
+    const userMessage: Message = { text: questionToSubmit, type: 'user' };
+    setMessages((prev) => [...prev, userMessage]);
+    setQuestion('');
+
+    // Increment the question counter
+    setQuestionCounter((prevCounter) => prevCounter + 1);
+
+    try {
+        // Check if the question exists in the Supabase cache
+        const { data: cachedAnswer } = await supabase
+            .from('qa_cache')
+            .select('answer')
+            .eq('question', questionToSubmit)
+            .single();
+
+        if (cachedAnswer) {
+            const aiMessage: Message = { text: cachedAnswer.answer, type: 'ai' };
+            setMessages((prev) => [...prev, aiMessage]);
+        } else {
+            // Fetch answer from API
             const res = await fetch('/api/ask', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ question: questionToSubmit }),
             });
 
             const data = await res.json();
             const aiMessage: Message = { text: data.answer, type: 'ai' };
             setMessages((prev) => [...prev, aiMessage]);
-        } catch {
-            const errorMessage: Message = { text: 'Sorry, something went wrong.', type: 'ai' };
-            setMessages((prev) => [...prev, errorMessage]);
-        } finally {
-            setLoading(false);
-        }
 
-    };
+            // Cache the question and answer in Supabase
+            const { error: insertError } = await supabase
+                .from('qa_cache')
+                .insert([{ question: questionToSubmit, answer: data.answer }]);
+
+            if (insertError) {
+                console.error('Error caching question and answer:', insertError);
+            }
+        }
+    } catch (err) { // Changed 'error' to 'err' to avoid conflict
+        console.error('Error:', err);
+        const errorMessage: Message = { text: 'Sorry, something went wrong.', type: 'ai' };
+        setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+        setLoading(false);
+    }
+};
+
+
+
+// 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
