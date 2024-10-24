@@ -3,51 +3,16 @@ import Image from 'next/image';
 import jsPDF from 'jspdf';
 import { supabase } from '../pages/api/supabaseClient'; // Import supabase client
 
+// Import the equipment questions data from equipmentQuestion.tsx
+import equipmentQuestions from './equipmentQuestion';
+
 
 interface Message {
     text: string;
     type: 'user' | 'ai';
 }
 
-const equipmentQuestions = {
-    "Helmet": [
-        "What are the features and functions of my helmet?",
-        "How do I properly don, doff, and adjust my helmet?",
-        "What are the limitations and purpose of my helmet?",
-        "How do I install replacement parts or make repairs to my helmet?",
-        "How do I store my helmet properly?",
-        "How can I minimize the risk of injury while using my helmet?"
-    ],
-    "Turnout Gear": [
-        "What are the construction, features, and function of my garment?",
-        "What is the proper procedure for donning and doffing my MT94 ensemble?",
-        "How do I ensure proper overlap and fit of my turnout gear?",
-        "What are the limitations and purpose of my garment?",
-        "What is the correct method for reassembling my turnout gear?"
-    ],
-    "Boots": [
-        "What are the limitations and purpose of my fire boots?",
-        "How can I minimize the risk of injury while using my fire boots?",
-        "What is the correct way to clean, decontaminate, and disinfect my fire boots?",
-        "How do I ensure proper size and fit of my fire boots?",
-        "What safety features should I be aware of for my fire boots?"
-    ],
-    "Gloves": [
-        "What are the limitations and purpose of structural gloves?",
-        "How do I properly wash, decontaminate, and store my gloves?",
-        "How can I ensure my structural gloves are being used safely?"
-    ],
-    "Hood": [
-        "What are the limitations and purpose of my hood?",
-        "How do I wash, decontaminate, and store my hood?",
-        "How can I minimize the risk of injury while using my hood?"
-    ],
-    "Pants": [
-        "What are the limitations and purpose of my pants?",
-        "How do I don and doff my pants properly?",
-        "What is the proper way to wash, decontaminate, and sanitize my pants?"
-    ]
-};
+
 
 const Chat: React.FC = () => {
     const [selectedEquipment, setSelectedEquipment] = useState<string>('');
@@ -57,7 +22,7 @@ const Chat: React.FC = () => {
     const [isFirstVisit, setIsFirstVisit] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const [questionCounter, setQuestionCounter] = useState(0); // Counter for questions asked
-    const maxQuestionsBeforeReset = 1; // Number of questions before reset
+    const maxQuestionsBeforeReset = 1; // Number of questions before reset (adjust as needed)
 
     const initialAIMessage: Message = {
         text: "👨‍🚒 Hey there! I'm equipHelper, your expert assistant for all things firefighting equipment! 🧰 Need help with maintaining your gear, or have questions about equipment care and inspection? Let’s make sure you're well-prepared for every emergency with properly maintained gear! 🚒💡",
@@ -97,11 +62,11 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
     setMessages((prev) => [...prev, userMessage]);
     setQuestion('');
 
-    // Increment the question counter
+    // Increment the question counter before sending the question to the API
     setQuestionCounter((prevCounter) => prevCounter + 1);
 
     try {
-        // Check if the question exists in the Supabase cache
+        // Check if the question exists in the Supabase cache table
         const { data: cachedAnswer } = await supabase
             .from('qa_cache')
             .select('answer')
@@ -123,7 +88,7 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
             const aiMessage: Message = { text: data.answer, type: 'ai' };
             setMessages((prev) => [...prev, aiMessage]);
 
-            // Cache the question and answer in Supabase
+            // Cache the question and answer in Supabase table if not cached
             const { error: insertError } = await supabase
                 .from('qa_cache')
                 .insert([{ question: questionToSubmit, answer: data.answer }]);
@@ -132,7 +97,7 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
                 console.error('Error caching question and answer:', insertError);
             }
         }
-    } catch (err) { // Changed 'error' to 'err' to avoid conflict
+    } catch (err) { // Changed 'error' to 'err' to avoid conflict with 'error' in try block
         console.error('Error:', err);
         const errorMessage: Message = { text: 'Sorry, something went wrong.', type: 'ai' };
         setMessages((prev) => [...prev, errorMessage]);
@@ -203,16 +168,16 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
     };
     
     const formatText = (text: string) => {
-        // Remove any "URL" or "url" from the text
+        // Remove any "URL" or "url" from the text before formatting
         const cleanedText = text.replace(/\b(URL|url)\b/g, '').trim();
     
-        // Split text into parts by image paths and keep them as parts
+        // Split text into parts by image paths and keep them as parts of the array
         const parts = cleanedText.split(/(\/ppe-images\/.*?\.png)/g);
         
         const formattedParts: (JSX.Element | string)[] = [];
     
         parts.forEach((part, index) => {
-            // Check if the part is an image path
+            // Check if the part is an image path and add it as an image component
             if (/^\/ppe-images\/.*?\.png$/.test(part)) {
                 formattedParts.push(
                     <Image
@@ -226,7 +191,7 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
                     />
                 );
             } else if (part.trim()) {
-                // If it's text, split by newlines for proper formatting
+                // If it's text, split by newlines for proper formatting and add line breaks
                 const textWithLineBreaks = part.split('\n').map((line, lineIndex) => (
                     <React.Fragment key={`${index}-${lineIndex}`}>
                         {line}
@@ -254,7 +219,7 @@ const handleSubmitLogic = async (questionToSubmit: string) => {
     useEffect(() => {
         if (questionCounter >= maxQuestionsBeforeReset) {
             setSelectedEquipment(''); // Reset to default after reaching max questions
-            setQuestionCounter(0); // Reset counter
+            setQuestionCounter(0); // Reset counter after reaching max questions
         }
     }, [questionCounter]);
 
